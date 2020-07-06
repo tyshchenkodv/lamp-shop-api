@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {User} = require('./../database.js');
-const config = require('../config/config.json.example');
+const config = require('../config/config.json');
 const auth = config.auth;
 const BadRequestException = require('./../exceptions/BadRequestException');
 const InternalErrorException = require('./../exceptions/InternalErrorException');

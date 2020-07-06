@@ -1,0 +1,20 @@
+{
+    "port": 3001,
+    "logger": {
+        "level": "debug"
+    },
+    "connection": {
+        "database": "lampshop",
+        "username": "adminLamp",
+        "password": "pass1234",
+        "options": {
+            "host": "localhost",
+            "dialect": "mysql",
+            "logging": false
+        }
+    },
+    "auth": {
+        "secret": "secret",
+        "expiresIn": "7d"
+    }
+}
