@@ -1,0 +1,10 @@
+# Temp files
+/.idea
+/tmp
+
+# dependencies
+/node_modules
+
+# config
+/config/*
+!/config/*.example
