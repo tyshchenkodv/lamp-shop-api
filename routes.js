@@ -1,6 +1,10 @@
 const express = require('express');
-const AuthController = require('./controllers/AuthController');
 const router = express.Router();
+
+const AuthController = require('./controllers/AuthController');
+const ArticleController = require('./controllers/ArticleController');
+
+const auth = require('./middlewares/auth');
 
 router.get('/', (req, res) => {
     return res.send({
@@ -10,5 +14,11 @@ router.get('/', (req, res) => {
 });
 
 router.post('/login', AuthController.login);
+
+router.get('/articles', ArticleController.list);
+router.post('/articles', auth, ArticleController.create);
+router.get('/articles/:id', ArticleController.item);
+router.put('/articles/:id', auth, ArticleController.update);
+router.delete('/articles/:id', auth, ArticleController.delete);
 
 module.exports = router;

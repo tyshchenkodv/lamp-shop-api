@@ -47,7 +47,7 @@ module.exports = {
                     {
                         id: user.id,
                         email: user.email,
-                        first_name: user.first_name,
+                        firstName: user.firstName,
                     },
                     auth.secret,
                     {
