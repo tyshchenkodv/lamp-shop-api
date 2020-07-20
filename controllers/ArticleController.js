@@ -1,4 +1,7 @@
 const { Article } = require('./../database.js');
+
+const slugify = require('slugify');
+
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
@@ -30,6 +33,11 @@ module.exports = {
         }
 
         const { id } = req.params;
+        req.body.alias = slugify(req.body.title, {
+            replacement: '_',
+            lower: true,
+            locale: 'eu',
+        });
         const data = req.body;
 
         const item = await Article.findByPk(id);
@@ -72,7 +80,11 @@ module.exports = {
         }
 
         try{
-
+            req.body.alias = slugify(req.body.title, {
+                replacement: '_',
+                lower: true,
+                locale: 'eu',
+            });
             const data = req.body;
             await Article.create(data);
 

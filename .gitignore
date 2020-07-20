@@ -11,3 +11,6 @@
 
 # database
 lampshop.sql
+
+# storage
+/storage
