@@ -79,18 +79,18 @@ module.exports = {
             return next(new UnauthorizedException());
         }
 
-        console.log(req);
-        //req.files.destination + req.files.filename;
-        try{
-            req.body.alias = slugify(req.body.title, {
+        try {
+            const data = req.body;
+
+            data.image = req.file ? `${req.file.destination}/${req.file.filename}` : null;
+            data.alias = slugify(data.title, {
                 replacement: '_',
                 lower: true,
                 locale: 'eu',
             });
-            const data = req.body;
-            await Article.create(data);
 
-        }catch(error){
+            await Article.create(data);
+        } catch (error) {
 
             return next(new BadRequestException(error));
 
