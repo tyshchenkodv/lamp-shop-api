@@ -79,6 +79,8 @@ module.exports = {
             return next(new UnauthorizedException());
         }
 
+        console.log(req);
+        //req.files.destination + req.files.filename;
         try{
             req.body.alias = slugify(req.body.title, {
                 replacement: '_',

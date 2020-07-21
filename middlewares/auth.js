@@ -7,7 +7,7 @@ const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 module.exports = async (req, res, next) => {
     try {
 
-        const payload = jwt.verify(req.header('Access-Token'), auth.secret);
+        const payload = jwt.verify(req.header('access_token'), auth.secret);
 
         if(payload){
             const user = await User.findByPk(payload.id);
