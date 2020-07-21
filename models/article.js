@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: true,
                 notEmpty: true,
                 len: [
-                    1,
+                    5,
                     300,
                 ],
             },
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: true,
                 notEmpty: true,
                 len: [
-                    1,
+                    5,
                     255,
                 ],
             },
