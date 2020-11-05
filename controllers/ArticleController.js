@@ -33,18 +33,20 @@ module.exports = {
         }
 
         const { id } = req.params;
-        req.body.alias = slugify(req.body.title, {
-            replacement: '_',
-            lower: true,
-            locale: 'eu',
-        });
-        const data = req.body;
 
         const item = await Article.findByPk(id);
 
         if (!item) {
             return next(new NotFoundException());
         }
+
+        const data = req.body;
+
+        data.alias = slugify(data.title, {
+            replacement: '_',
+            lower: true,
+            locale: 'eu',
+        });
 
         try {
 

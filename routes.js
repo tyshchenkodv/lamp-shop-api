@@ -30,7 +30,7 @@ router.post('/login', AuthController.login);
 router.get('/articles', ArticleController.list);
 router.post('/articles', upload.single('image'), auth, ArticleController.create);
 router.get('/articles/:id', ArticleController.item);
-router.put('/articles/:id', auth, ArticleController.update);
+router.put('/articles/:id', upload.single('image'), auth, ArticleController.update);
 router.delete('/articles/:id', auth, ArticleController.delete);
 
 module.exports = router;
