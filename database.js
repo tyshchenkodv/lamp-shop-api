@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const config = require('./config/config.json');
 const User = require('./models/user');
+const Article = require('./models/article');
 
 const sequelize = new Sequelize(
     config.connection.database,
@@ -18,6 +19,7 @@ const sequelize = new Sequelize(
 
 const models = {
     User: User(sequelize, Sequelize),
+    Article: Article(sequelize, Sequelize),
 };
 
 module.exports = {

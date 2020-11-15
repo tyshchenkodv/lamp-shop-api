@@ -8,3 +8,9 @@
 # config
 /config/*
 !/config/*.example
+
+# database
+lampshop.sql
+
+# storage
+/storage
