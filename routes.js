@@ -18,6 +18,8 @@ const ArticleController = require('./controllers/ArticleController');
 const CategoryController = require('./controllers/CategoryController');
 const AttributeController = require('./controllers/AttributeController');
 const ProductController = require('./controllers/ProductController');
+const OrderController = require('./controllers/OrderController');
+const CustomerController = require('./controllers/CustomerController');
 
 const auth = require('./middlewares/auth');
 
@@ -53,5 +55,17 @@ router.post('/products', auth, ProductController.create);
 router.get('/products/:id', ProductController.item);
 router.put('/products/:id', auth, ProductController.update);
 router.delete('/products/:id', auth, ProductController.delete);
+
+router.get('/customers', CustomerController.list);
+router.post('/customers', auth, CustomerController.create);
+router.get('/customers/:id', CustomerController.item);
+router.put('/customers/:id', auth, CustomerController.update);
+router.delete('/customers/:id', auth, CustomerController.delete);
+
+router.get('/orders', OrderController.list);
+router.post('/orders', auth, OrderController.create);
+router.get('/orders/:id', OrderController.item);
+router.put('/orders/:id', auth, OrderController.update);
+router.delete('/orders/:id', auth, OrderController.delete);
 
 module.exports = router;

@@ -7,6 +7,9 @@ const Attribute = require('./models/attribute');
 const Comment = require('./models/comment');
 const Product = require('./models/product');
 const ProductAttribute = require('./models/productAttribute');
+const Customer = require('./models/customer');
+const Order = require('./models/order');
+const ProductOrder = require('./models/productOrder');
 
 const sequelize = new Sequelize(
     config.connection.database,
@@ -30,6 +33,9 @@ const models = {
     Comment: Comment(sequelize, Sequelize),
     Product: Product(sequelize, Sequelize),
     ProductAttribute: ProductAttribute(sequelize, Sequelize),
+    Customer: Customer(sequelize, Sequelize),
+    Order: Order(sequelize, Sequelize),
+    ProductOrder: ProductOrder(sequelize, Sequelize),
 };
 
 models.Product.hasMany(models.Comment, {
@@ -55,7 +61,6 @@ models.Product.belongsToMany(models.Attribute, {
         fieldName: 'productId'
     },
 });
-
 models.Attribute.belongsToMany(models.Product, {
     as: 'product',
     through: {
@@ -65,6 +70,35 @@ models.Attribute.belongsToMany(models.Product, {
     foreignKey: {
         primaryKey: true,
         fieldName: 'attributeId',
+    },
+});
+
+models.Customer.hasMany(models.Order, {
+    as: 'customer',
+    foreignKey: 'customerId',
+});
+models.Order.belongsTo(models.Customer);
+
+models.Product.belongsToMany(models.Order, {
+    as: 'order',
+    through: {
+        model: models.ProductOrder,
+        unique: false,
+    },
+    foreignKey: {
+        primaryKey: true,
+        fieldName: 'productId'
+    },
+});
+models.Order.belongsToMany(models.Product, {
+    as: 'product',
+    through: {
+        model: models.ProductOrder,
+        unique: false,
+    },
+    foreignKey: {
+        primaryKey: true,
+        fieldName: 'orderId',
     },
 });
 
