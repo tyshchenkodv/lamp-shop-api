@@ -77,6 +77,16 @@ module.exports = {
 
             const data = req.body;
 
+            const customerCreated = await Customer.findOne({
+                where: {
+                    email: data.email,
+                },
+            });
+
+            if (customerCreated) {
+                return next(new BadRequestException({message: 'This user has already been created'}));
+            }
+
             await Customer.create(data);
 
         } catch (error) {
