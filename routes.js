@@ -20,6 +20,7 @@ const AttributeController = require('./controllers/AttributeController');
 const ProductController = require('./controllers/ProductController');
 const OrderController = require('./controllers/OrderController');
 const CustomerController = require('./controllers/CustomerController');
+const CommentController = require('./controllers/CommentController');
 
 const auth = require('./middlewares/auth');
 
@@ -67,5 +68,11 @@ router.post('/orders', auth, OrderController.create);
 router.get('/orders/:id', OrderController.item);
 router.put('/orders/:id', auth, OrderController.update);
 router.delete('/orders/:id', auth, OrderController.delete);
+
+router.get('/comments', CommentController.list);
+router.post('/comments', auth, CommentController.create);
+router.get('/comments/:id', CommentController.item);
+router.put('/comments/:id', auth, CommentController.update);
+router.delete('/comments/:id', auth, CommentController.delete);
 
 module.exports = router;

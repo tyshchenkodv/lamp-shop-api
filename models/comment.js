@@ -32,5 +32,13 @@ module.exports = (sequelize, DataTypes) => {
                 ],
             },
         },
+        processed: {
+            type: DataTypes.ENUM('new','displayed'),
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
     })
 };

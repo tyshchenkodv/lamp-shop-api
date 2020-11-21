@@ -1,4 +1,5 @@
-const { Category } = require('./../database.js');
+const { Comment } = require('./../database.js');
+const { Product } = require('./../database.js');
 
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
@@ -6,7 +7,12 @@ const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 
 module.exports = {
     list: async (req, res) => {
-        const data = await Category.findAll();
+        const data = await Comment.findAll({
+            include: [
+                { model: Product },
+            ],
+        });
+
 
         return res.status(200).send({
             data,
@@ -15,7 +21,7 @@ module.exports = {
     item: async (req, res, next) => {
         const { id } = req.params;
 
-        const item = await Category.findByPk(id);
+        const item = await Comment.findByPk(id);
 
         if (!item) {
             return next(new NotFoundException());
@@ -32,7 +38,7 @@ module.exports = {
 
         const { id } = req.params;
 
-        const item = await Category.findByPk(id);
+        const item = await Comment.findByPk(id);
 
         if (!item) {
             return next(new NotFoundException());
@@ -58,7 +64,7 @@ module.exports = {
         }
 
         const { id } = req.params;
-        const item = await Category.findByPk(id);
+        const item = await Comment.findByPk(id);
 
         if (!item) {
             return next(new NotFoundException());
@@ -77,7 +83,7 @@ module.exports = {
 
             const data = req.body;
 
-            await Category.create(data);
+            await Comment.create(data);
 
         } catch (error) {
 
