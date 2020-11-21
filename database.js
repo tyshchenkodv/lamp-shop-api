@@ -39,7 +39,7 @@ const models = {
 };
 
 models.Product.hasMany(models.Comment, {
-    as: 'comment',
+    as: 'comments',
     foreignKey: 'productId',
 });
 models.Comment.belongsTo(models.Product);

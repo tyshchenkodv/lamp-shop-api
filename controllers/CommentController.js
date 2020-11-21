@@ -1,4 +1,5 @@
 const { Comment } = require('./../database.js');
+const { Product } = require('./../database.js');
 
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
@@ -6,7 +7,12 @@ const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 
 module.exports = {
     list: async (req, res) => {
-        const data = await Comment.findAll();
+        const data = await Comment.findAll({
+            include: [
+                { model: Product },
+            ],
+        });
+
 
         return res.status(200).send({
             data,
