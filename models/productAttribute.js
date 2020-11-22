@@ -1,3 +1,3 @@
 module.exports = (sequelize) => {
-    return sequelize.define('productAttribute', {});
+    return sequelize.define('productattribute', {});
 };
