@@ -56,5 +56,13 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true,
             },
         },
+        image: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
     })
 };

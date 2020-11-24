@@ -1,5 +1,4 @@
 const { Product } = require('./../database.js');
-const { Attribute } = require('./../database.js');
 
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
@@ -11,13 +10,6 @@ module.exports = {
             include: [
                 'comments',
                 'category',
-                {
-                    as: 'attribute',
-                    model: Attribute,
-                    through: {
-                        attributes: [],
-                    },
-                },
             ],
         });
 
@@ -30,15 +22,8 @@ module.exports = {
 
         const item = await Product.findByPk(id, {
             include: [
-                'comment',
+                'comments',
                 'category',
-                {
-                    as: 'attribute',
-                    model: Attribute,
-                    through: {
-                        attributes: [],
-                    },
-                },
             ],
         });
 
@@ -64,6 +49,7 @@ module.exports = {
         }
 
         const data = req.body;
+        data.image = req.file ? `${req.file.destination}/${req.file.filename}` : null;
 
         try {
 
@@ -101,6 +87,7 @@ module.exports = {
         try {
 
             const data = req.body;
+            data.image = req.file ? `${req.file.destination}/${req.file.filename}` : null;
 
             await Product.create(data);
 

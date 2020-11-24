@@ -37,6 +37,14 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true,
             },
         },
+        status: {
+            type: DataTypes.ENUM('Новый','Обработанный','Выполненный'),
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
         deliveryAdress: {
             type: DataTypes.STRING,
             allowNull: false,
