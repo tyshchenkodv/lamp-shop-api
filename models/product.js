@@ -36,9 +36,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
             allowNull: false,
             validate: {
-                notNull: true,
+                notNull: false,
                 notEmpty: true,
             },
+        },
+        promotionalPrice: {
+            type: DataTypes.FLOAT,
+            allowNull: true,
         },
         availability: {
             type: DataTypes.ENUM('В наявності', 'Немає в наявності'),

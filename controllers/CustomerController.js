@@ -6,7 +6,11 @@ const UnauthorizedException = require('./../exceptions/UnauthorizedException');
 
 module.exports = {
     list: async (req, res) => {
-        const data = await Customer.findAll();
+        const data = await Customer.findAll({
+            include: [
+                'region',
+            ],
+        });
 
         return res.status(200).send({
             data,
