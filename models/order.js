@@ -14,7 +14,15 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         paymentType: {
-            type: DataTypes.ENUM('Накладений платіж Нової пошти','Безготівковий розрахунок','Готівкою'),
+            type: DataTypes.ENUM('Банковский перевод (Безналичный расчет)','Оплата при доставке'),
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
+        deliveryType: {
+            type: DataTypes.ENUM('Самовывоз из магазина','Доставка любым удобным перевозчиком'),
             allowNull: false,
             validate: {
                 notNull: true,
@@ -38,27 +46,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         status: {
-            type: DataTypes.ENUM('Новый','Обработанный','Выполненный'),
-            allowNull: false,
-            validate: {
-                notNull: true,
-                notEmpty: true,
-            },
-        },
-        deliveryAdress: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: true,
-                notEmpty: true,
-                len: [
-                    2,
-                    255,
-                ],
-            },
-        },
-        deliveryName: {
-            type: DataTypes.ENUM('Самовивіз','Нова Пошта','Укрпошта','Meest Express'),
+            type: DataTypes.ENUM('Новый','Обработанный','Выполненный','Возврат'),
             allowNull: false,
             validate: {
                 notNull: true,

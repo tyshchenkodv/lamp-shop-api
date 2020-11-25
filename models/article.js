@@ -50,10 +50,22 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 notNull: true,
                 notEmpty: true,
-                len: [
-                    1,
-                    65,
-                ],
+            },
+        },
+        type: {
+            type: DataTypes.ENUM('Новость','Статья'),
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
+        publicationDate: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
             },
         },
     })

@@ -8,6 +8,7 @@ const Product = require('./models/product');
 const Customer = require('./models/customer');
 const Order = require('./models/order');
 const ProductOrder = require('./models/productOrder');
+const Region = require('./models/region');
 
 const sequelize = new Sequelize(
     config.connection.database,
@@ -32,6 +33,7 @@ const models = {
     Customer: Customer(sequelize, Sequelize),
     Order: Order(sequelize, Sequelize),
     ProductOrder: ProductOrder(sequelize, Sequelize),
+    Region: Region(sequelize, Sequelize),
 };
 
 models.Product.hasMany(models.Comment, {
@@ -46,11 +48,22 @@ models.Category.hasOne(models.Product, {
 });
 models.Product.belongsTo(models.Category);
 
+models.Category.hasMany(models.Category, {
+    as: 'child',
+    foreignKey: 'parentId'
+});
+
 models.Customer.hasMany(models.Order, {
     as: 'customer',
     foreignKey: 'customerId',
 });
 models.Order.belongsTo(models.Customer);
+
+models.Region.hasOne(models.Customer, {
+    as: 'region',
+    foreignKey: 'regionId',
+});
+models.Customer.belongsTo(models.Region);
 
 models.Product.belongsToMany(models.Order, {
     as: 'order',

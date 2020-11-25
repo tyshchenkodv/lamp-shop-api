@@ -40,15 +40,16 @@ module.exports = {
             return next(new NotFoundException());
         }
 
-        const data = req.body;
-
-        data.alias = slugify(data.title, {
-            replacement: '_',
-            lower: true,
-            locale: 'eu',
-        });
-
         try {
+
+            const data = req.body;
+
+            data.image = req.file ? `${req.file.destination}/${req.file.filename}` : 'no image';
+            data.alias = slugify(data.title, {
+                replacement: '_',
+                lower: true,
+                locale: 'eu',
+            });
 
             await item.update(data);
 
@@ -84,7 +85,7 @@ module.exports = {
         try {
             const data = req.body;
 
-            data.image = req.file ? `${req.file.destination}/${req.file.filename}` : null;
+            data.image = req.file ? `${req.file.destination}/${req.file.filename}` : 'no image';
             data.alias = slugify(data.title, {
                 replacement: '_',
                 lower: true,

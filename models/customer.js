@@ -49,5 +49,49 @@ module.exports = (sequelize, DataTypes) => {
                 ],
             },
         },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        company: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        ogrn: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        address1: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
+        address2: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        city: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            },
+        },
+        addressIndex: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        country: {
+            type: DataTypes.ENUM('Украина'),
+            allowNull: false,
+        },
+        main: {
+            type: DataTypes.TINYINT,
+            allowNull: false,
+        },
     });
 };
