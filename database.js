@@ -46,6 +46,11 @@ models.Category.hasOne(models.Product, {
 });
 models.Product.belongsTo(models.Category);
 
+models.Category.hasMany(models.Category, {
+    as: 'child',
+    foreignKey: 'parentId'
+});
+
 models.Customer.hasMany(models.Order, {
     as: 'customer',
     foreignKey: 'customerId',
