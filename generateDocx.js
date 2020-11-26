@@ -3,6 +3,8 @@ const numberToString = require('number-to-cyrillic');
 require('dayjs/locale/uk');
 const PizZip = require('pizzip');
 const Docxtemplater = require('docxtemplater');
+const BadRequestException = require('./exceptions/BadRequestException');
+const InternalErrorException = require('./exceptions/InternalErrorException');
 
 const fs = require('fs');
 const path = require('path');
@@ -80,8 +82,6 @@ async function createDocx(myObj) {
     dataForDocx.productsCount = countIds.length;
     dataForDocx.products = countIds;
 
-    console.log(dataForDocx)
-
 //Load the docx file as a binary
     const content = fs
         .readFileSync(path.resolve('./docxTemplates/invoiceTemplate.docx'), 'binary');
@@ -116,9 +116,11 @@ async function createDocx(myObj) {
 
 module.exports = {
     generateInvoice: async (req, res, next) => {
-        const data = req.body;
+        if(!req.body) {
+            return next(new BadRequestException());
+        }
 
-        await createDocx(data);
+        await createDocx(req.body);
 
         const options = {
             root: path.join(__dirname, 'docxTemplates'),
@@ -132,9 +134,7 @@ module.exports = {
 
         return res.sendFile(fileName, options, function (err) {
             if (err) {
-                next(err)
-            } else {
-                console.log('Sent:', fileName)
+                return next(new InternalErrorException());
             }
         });
     },
