@@ -123,18 +123,18 @@ module.exports = {
         await createDocx(req.body);
 
         const options = {
-            root: path.join(__dirname, 'docxTemplates'),
+            root: path.join(__dirname, '/docxTemplates'),
             dotfiles: 'deny',
             headers: {
                 'x-timestamp': Date.now(),
-                'x-sent': true
+                'x-sent': true,
             }
         }
         const fileName = 'output.docx';
 
         return res.sendFile(fileName, options, function (err) {
             if (err) {
-                return next(new InternalErrorException());
+                next(new InternalErrorException());
             }
         });
     },
