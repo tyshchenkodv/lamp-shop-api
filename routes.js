@@ -20,6 +20,7 @@ const ProductController = require('./controllers/ProductController');
 const OrderController = require('./controllers/OrderController');
 const CustomerController = require('./controllers/CustomerController');
 const CommentController = require('./controllers/CommentController');
+const GenerateDocx = require('./generateDocx');
 
 const auth = require('./middlewares/auth');
 
@@ -67,5 +68,7 @@ router.post('/comments', auth, CommentController.create);
 router.get('/comments/:id', CommentController.item);
 router.put('/comments/:id', auth, CommentController.update);
 router.delete('/comments/:id', auth, CommentController.delete);
+
+router.get('/generateInvoice', auth, GenerateDocx.generateInvoice);
 
 module.exports = router;
