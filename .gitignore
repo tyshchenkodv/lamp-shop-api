@@ -1,6 +1,7 @@
 # Temp files
 /.idea
 /tmp
+/docxTemplates
 
 # dependencies
 /node_modules
