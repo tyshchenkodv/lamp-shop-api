@@ -1,8 +1,12 @@
 const { Product } = require('./../database.js');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
+
+const DSS = require('../dss');
 
 module.exports = {
     list: async (req, res) => {
@@ -99,7 +103,7 @@ module.exports = {
 
         return res.status(201).send();
     },
-    dss: async (req, res) => {
+    dss: async (req, res, next) => {
         const { id } = req.params;
 
         const products = await Product.findAll({
@@ -115,66 +119,34 @@ module.exports = {
             product.dataValues.solded,
         ]);
 
-        console.log(soldedProducts);
-        //let j = Object.keys(soldedProducts).length < 5 ?
 
-        let vald = { value: 0 };
-
-        for (let key in soldedProducts) {
-            vald.id = key;
-            vald.value = Math.min(soldedProducts[key][0], soldedProducts[key][1]);
+        let productIdsToPurchase;
+        try {
+            productIdsToPurchase = DSS(soldedProducts);
+        } catch (err){
+            next(BadRequestException(err));
         }
 
-        let bayes = { value: -1 };
+        const purchasesList = await Product.findAll({
+            where: {
+                [Op.or]: [
+                    { id: productIdsToPurchase },
+                ],
+            },
+        });
 
-        for (let key in soldedProducts) {
-            if(bayes.value < soldedProducts[key][0] * 0.3 + soldedProducts[key][1]*0.7) {
-                bayes.id = key;
-                bayes.value = soldedProducts[key][0] * 0.3 + soldedProducts[key][1]*0.7;
-            }
-        }
+        let purchases = [];
 
-        let hurviz = { s: 0 };
-
-        for (let key in soldedProducts) {
-            const minA = Math.min(soldedProducts[key][0], soldedProducts[key][1]);
-            const maxA = Math.max(soldedProducts[key][0], soldedProducts[key][1]);
-            hurviz.id = key;
-            hurviz.s = 0.3 * minA + 0.7 * maxA;
-        }
-
-        const criteries = [vald, bayes, hurviz];
-
-        let valdCounter = 0;
-        let bayesCounter = 0;
-        let hurvizCounter = 0;
-
-        if(vald.id === bayes.id){
-            valdCounter++;
-        }
-        if(vald.id === hurviz.id){
-            valdCounter++;
-        }
-
-        if(bayes.id === vald.id){
-            bayesCounter++;
-        }
-        if(bayes.id === hurviz.id){
-            bayesCounter++;
-        }
-
-        if(hurviz.id === vald.id){
-            hurvizCounter++;
-        }
-        if(hurviz.id === bayes.id){
-            hurvizCounter++;
-        }
-
-        const arr = [valdCounter, bayesCounter, hurvizCounter];
-        console.log(criteries[arr.indexOf(Math.max.apply(this, arr))]);
+        productIdsToPurchase.map(item => {
+            purchasesList.map(({ dataValues }) => {
+                if (item === dataValues.id.toString()){
+                    purchases.push(dataValues);
+                }
+            })
+        });
 
         return res.status(201).send({
-            item: products,
+            item: purchases,
         });
     },
 };
