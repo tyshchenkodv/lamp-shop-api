@@ -60,14 +60,6 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true,
             },
         },
-        solded: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                notNull: true,
-                notEmpty: true,
-            },
-        },
         image: {
             type: DataTypes.TEXT,
             allowNull: false,

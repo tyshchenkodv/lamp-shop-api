@@ -1,7 +1,5 @@
 const { Product } = require('./../database.js');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-
+const { sequelize } = require('./../database.js');
 const NotFoundException = require('./../exceptions/NotFoundException');
 const BadRequestException = require('./../exceptions/BadRequestException');
 const UnauthorizedException = require('./../exceptions/UnauthorizedException');
@@ -106,47 +104,35 @@ module.exports = {
     dss: async (req, res, next) => {
         const { id } = req.params;
 
-        const products = await Product.findAll({
-            where: {
-                categoryId: id,
-            },
-        });
-
         const soldedProducts = {};
 
-        products.map(product => soldedProducts[`${product.dataValues.id}`] = [
-            product.dataValues.count,
-            product.dataValues.solded,
-        ]);
+        sequelize.query(`select p.id, p.name, p.code, p.price, p.count, count(*) as solded from products p join productorders po on po.productId = p.id join orders o on o.id = po.orderId where p.categoryId = ${id} group by p.code order by p.code\n`, { type: sequelize.QueryTypes.SELECT})
+            .then(async function(products) {
 
-
-        let productIdsToPurchase;
-        try {
-            productIdsToPurchase = DSS(soldedProducts);
-        } catch (err){
-            next(BadRequestException(err));
-        }
-
-        const purchasesList = await Product.findAll({
-            where: {
-                [Op.or]: [
-                    { id: productIdsToPurchase },
-                ],
-            },
-        });
-
-        let purchases = [];
-
-        productIdsToPurchase.map(item => {
-            purchasesList.map(({ dataValues }) => {
-                if (item === dataValues.id.toString()){
-                    purchases.push(dataValues);
+                products.map(product => soldedProducts[`${product.id}`] = [
+                    product.count,
+                    product.solded,
+                ]);
+                let productIdsToPurchase;
+                try {
+                    productIdsToPurchase = DSS(soldedProducts);
+                } catch (err){
+                    next(BadRequestException(err));
                 }
-            })
-        });
 
-        return res.status(201).send({
-            item: purchases,
-        });
+                let purchases = [];
+
+                productIdsToPurchase.map(item => {
+                    products.map((prod) => {
+                        if (item === prod.id.toString()){
+                            purchases.push(prod);
+                        }
+                    })
+                });
+
+                return res.status(201).send({
+                    item: purchases,
+                });
+            });
     },
 };
