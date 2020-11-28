@@ -22,6 +22,7 @@
     "number-to-cyrillic": "2.6.5",
     "pizzip": "3.0.6",
     "sequelize": "6.3.0",
-    "slugify": "1.4.4"
+    "slugify": "1.4.4",
+    "wmf_ab": "git://github.com/ewulczyn/wmf_ab.git"
   }
 }
