@@ -99,4 +99,17 @@ module.exports = {
 
         return res.status(201).send();
     },
+    dss: async (req, res) => {
+        const { id } = req.params;
+
+        const item = await Product.findOne({
+            where: {
+                id
+            },
+        });
+
+        return res.status(201).send({
+            item: item.dataValues,
+        });
+    },
 };

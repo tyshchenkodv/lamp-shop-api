@@ -70,5 +70,6 @@ router.put('/comments/:id', auth, CommentController.update);
 router.delete('/comments/:id', auth, CommentController.delete);
 
 router.put('/generateInvoice', auth, GenerateDocx.generateInvoice);
+router.get('/dss/:id', auth, ProductController.dss);
 
 module.exports = router;
