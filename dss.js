@@ -7,8 +7,10 @@ module.exports = (soldedProducts) => {
         let vald = { value: 0 };
 
         for (let key in soldedProducts) {
-            vald.id = key;
-            vald.value = Math.min(soldedProducts[key][0], soldedProducts[key][1]);
+            if(vald.value < Math.min(soldedProducts[key][0], soldedProducts[key][1])) {
+                vald.id = key;
+                vald.value = Math.min(soldedProducts[key][0], soldedProducts[key][1]);
+            }
         }
 
         let bayes = { value: -1 };
@@ -25,8 +27,10 @@ module.exports = (soldedProducts) => {
         for (let key in soldedProducts) {
             const minA = Math.min(soldedProducts[key][0], soldedProducts[key][1]);
             const maxA = Math.max(soldedProducts[key][0], soldedProducts[key][1]);
-            hurviz.id = key;
-            hurviz.s = 0.3 * minA + 0.7 * maxA;
+            if (hurviz.s < 0.3 * minA + 0.7 * maxA) {
+                hurviz.id = key;
+                hurviz.s = 0.3 * minA + 0.7 * maxA;
+            }
         }
 
         const criteriesIds = [vald.id, bayes.id, hurviz.id];
